@@ -6,6 +6,20 @@ const tours = JSON.parse(
 );
 
 // callbacks
+
+exports.checkID = function (req, res, next, val) {
+  console.log(val);
+  const id = req.params.id * 1;
+
+  if (id > tours.length) {
+    return res.status(404).json({
+      status: "Fail",
+      message: "Invalid ID",
+    });
+  }
+  next();
+};
+
 exports.getAllTours = function (req, res) {
   res.status(200).json({
     status: "success",
@@ -38,17 +52,8 @@ exports.createTour = (req, res) => {
 };
 
 exports.getTour = function (req, res) {
-  // console.log(req.params.id);
   const id = req.params.id * 1;
-
-  if (id > tours.length) {
-    return res.status(404).json({
-      status: "Fail",
-      message: "Invalid ID",
-    });
-  }
   const tour = tours.find((el) => el.id === id);
-
   res.status(200).json({
     status: "success",
     data: {
@@ -60,13 +65,6 @@ exports.getTour = function (req, res) {
 
 exports.updateTour = function (req, res) {
   const id = req.params.id * 1;
-
-  if (id > tours.length) {
-    return res.status(404).json({
-      status: "Fail",
-      message: "Invalid ID",
-    });
-  }
 
   res.status(201).json({
     status: "success",

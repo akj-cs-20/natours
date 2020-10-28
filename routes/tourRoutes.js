@@ -1,14 +1,17 @@
 const express = require("express");
-const tourRouter = express.Router();
+const router = express.Router();
 const tourController = require("./../controllers/tourController");
 
-tourRouter
+// param middleware
+router.param("id", tourController.checkID);
+
+router
   .route("/")
   .get(tourController.getAllTours)
   .post(tourController.createTour);
-tourRouter
+router
   .route("/:id")
   .get(tourController.getTour)
   .patch(tourController.updateTour);
 
-module.exports = tourRouter;
+module.exports = router;
