@@ -6,7 +6,6 @@ const tours = JSON.parse(
 );
 
 // callbacks
-
 exports.checkID = function (req, res, next, val) {
   console.log(val);
   const id = req.params.id * 1;
@@ -73,4 +72,14 @@ exports.updateTour = function (req, res) {
     },
   });
   res.end();
+};
+
+exports.checkBody = function (req, res, next) {
+  if (!req.body.name || !req.body.price) {
+    return res.status(400).json({
+      status: "fail",
+      message: "name or price may not provided",
+    });
+  }
+  next();
 };
